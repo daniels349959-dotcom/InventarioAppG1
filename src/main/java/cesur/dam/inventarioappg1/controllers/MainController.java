@@ -1,5 +1,6 @@
 package cesur.dam.inventarioappg1.controllers;
 
+import cesur.dam.inventarioappg1.SceneNavigator;
 import cesur.dam.inventarioappg1.data.DataSourceFactory;
 import cesur.dam.inventarioappg1.data.EquipoJdbcDAO;
 import cesur.dam.inventarioappg1.models.Equipo;
@@ -27,7 +28,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /* Inicialización de la tabla */
+        /* Inicializaci├│n de la tabla */
         cId.setCellValueFactory( (row)->{
             Equipo equipment = row.getValue();
             Long  id = equipment.getId();
@@ -54,5 +55,14 @@ public class MainController implements Initializable {
             System.out.println(equipo);
             table.getItems().add(equipo);
         });
+    }
+    @FXML
+    public void create() {
+        SceneNavigator.navigateTo("create-view.fxml", "Crear equipo");
+    }
+
+    @FXML
+    public void logout() {
+        SceneNavigator.navigateTo("login-view.fxml", "Login");
     }
 }
