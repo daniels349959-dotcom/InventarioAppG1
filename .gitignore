@@ -37,3 +37,11 @@ build/
 
 ### Mac OS ###
 .DS_Store
+# Caché local de comprobación
+.maven-cache/
+
+# Archivos locales de ejecución
+out/
+.env
+.env.*
+.idea/runConfigurations/
