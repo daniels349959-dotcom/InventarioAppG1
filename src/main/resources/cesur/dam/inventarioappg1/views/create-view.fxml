@@ -5,9 +5,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -28,17 +25,12 @@
             </image>
          </ImageView>
       
-          <Label fx:id="welcomeText" text="Ficha de equipo">
+          <Label text="Crear equipo">
             <font>
                <Font name="System Bold" size="24.0" />
             </font>
          </Label>
-         <FlowPane alignment="CENTER">
-            <children>
-               <Label prefWidth="66.0" text="Id" />
-               <Spinner fx:id="spinnerId" editable="true" />
-            </children>
-         </FlowPane>
+         <Label text="El identificador se genera al guardar." />
          <FlowPane alignment="CENTER">
             <children>
                <Label prefWidth="66.0" text="Nombre" />
@@ -51,7 +43,7 @@
                <ChoiceBox fx:id="choiceCategory" prefWidth="150.0" />
             </children>
          </FlowPane>
-         <FlowPane alignment="CENTER" layoutX="30.0" layoutY="142.0">
+         <FlowPane alignment="CENTER">
             <children>
                <CheckBox fx:id="chkAvailable" alignment="CENTER" mnemonicParsing="false" text="Disponible" />
             </children>
