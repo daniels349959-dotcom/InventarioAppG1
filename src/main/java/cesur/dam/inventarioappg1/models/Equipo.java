@@ -2,6 +2,7 @@ package cesur.dam.inventarioappg1.models;
 
 import lombok.Data;
 
+// Lombok genera los getters y setters de estos campos.
 @Data
 public class Equipo {
     private Long id;
