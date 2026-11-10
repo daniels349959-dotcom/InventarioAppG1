@@ -6,56 +6,48 @@ import cesur.dam.inventarioappg1.data.EquipoJdbcDAO;
 import cesur.dam.inventarioappg1.models.Equipo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class MainController implements Initializable {
-
-    @FXML
-    private TableColumn<Equipo,String> cAvailability;
+public class MainController {
     @FXML
     private TableView<Equipo> table;
     @FXML
-    private TableColumn<Equipo,String> cCategory;
+    private TableColumn<Equipo, String> cId;
     @FXML
-    private TableColumn<Equipo,String> cName;
+    private TableColumn<Equipo, String> cName;
     @FXML
-    private TableColumn<Equipo,String> cId;
+    private TableColumn<Equipo, String> cCategory;
+    @FXML
+    private TableColumn<Equipo, String> cAvailability;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        /* Inicializaci├│n de la tabla */
-        cId.setCellValueFactory( (row)->{
-            Equipo equipment = row.getValue();
-            Long  id = equipment.getId();
-            return new SimpleStringProperty(String.valueOf(id));
-        });
-        cName.setCellValueFactory( (row)->{
-            if(row.getValue().getNombre().isBlank()){
-                return new SimpleStringProperty("--");
-            } else  {
-                return new SimpleStringProperty(String.valueOf(row.getValue().getNombre()));
+    @FXML
+    public void initialize() {
+        // Cada columna muestra un dato del equipo de esa fila.
+        cId.setCellValueFactory(row -> new SimpleStringProperty(row.getValue().getId().toString()));
+        cName.setCellValueFactory(row -> new SimpleStringProperty(row.getValue().getNombre()));
+        cCategory.setCellValueFactory(row -> new SimpleStringProperty(row.getValue().getCategoria()));
+        cAvailability.setCellValueFactory(row -> {
+            if (row.getValue().getDisponible()) {
+                return new SimpleStringProperty("disponible");
+            } else {
+                return new SimpleStringProperty("no disponible");
             }
         });
-        cCategory.setCellValueFactory( (row)->{
-            return new SimpleStringProperty(String.valueOf(row.getValue().getCategoria()).toUpperCase());
-        });
-        cAvailability.setCellValueFactory( (row)->{
-            var availability = row.getValue().getDisponible();
-            String output = availability? "disponible":"no disponible";
-            return new SimpleStringProperty(output);
-        });
 
-        var dao = new EquipoJdbcDAO(DataSourceFactory.getDataSource());
-        dao.findAll().forEach( (equipo)->{
-            System.out.println(equipo);
-            table.getItems().add(equipo);
-        });
+        try {
+            EquipoJdbcDAO dao = new EquipoJdbcDAO(DataSourceFactory.getDataSource());
+            for (Equipo equipo : dao.findAll()) {
+                table.getItems().add(equipo);
+            }
+        } catch (RuntimeException e) {
+            table.setPlaceholder(new Label("No se han podido cargar los datos"));
+            new Alert(Alert.AlertType.ERROR, "No se ha podido conectar con la base de datos.").showAndWait();
+        }
     }
+
     @FXML
     public void create() {
         SceneNavigator.navigateTo("create-view.fxml", "Crear equipo");
